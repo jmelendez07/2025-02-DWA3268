@@ -2,6 +2,7 @@ package com.parcial.dos.parcialdos.account.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,31 +23,37 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<AccountResponseDTO> create(@RequestBody AccountRequestDTO request) {
-        return null;
+        AccountResponseDTO response = service.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
     public ResponseEntity<List<AccountResponseDTO>> getAll() {
-        return null
+        List<AccountResponseDTO> accounts = service.getAll();
+        return ResponseEntity.ok(accounts);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AccountResponseDTO> getById(@PathVariable Long id) {
-        return null;
+        AccountResponseDTO account = service.getById(id);
+        return ResponseEntity.ok(account);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@PathVariable Long id, @RequestBody AccountRequestDTO request) {
-        return null;
+        String message = service.update(id, request);
+        return ResponseEntity.ok(message);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        return null;
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{numeroCuenta}")
+    @GetMapping("/by-number/{numeroCuenta}")
     public ResponseEntity<AccountOwnerBalanceDTO> getByNumeroCuenta(@PathVariable String numeroCuenta) {
-        return null;
+        AccountOwnerBalanceDTO account = service.findByNumeroCuenta(numeroCuenta);
+        return ResponseEntity.ok(account);
     }
 }
